@@ -11,11 +11,28 @@ import faiss
 import os
 from langchain.prompts import PromptTemplate
 from langchain.chains.question_answering import load_qa_chain
+from dotenv import load_dotenv
+load_dotenv()
+from fastapi.middleware.cors import CORSMiddleware
 
 
-if "GOOGLE_API_KEY" not in os.environ:
-    raise ValueError("GOOGLE_API_KEY environment variable not set.")
+
+api_key = os.environ.get("GOOGLE_API_KEY")
+if not api_key:
+    raise ValueError("GOOGLE_API_KEY environment variable not set or empty.")
+
+print(f"Using API key: {api_key[:6]}...")  # print only part of it for safety
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or specify your frontend URL(s)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 document_store = {}
 class Request(BaseModel):
     document_id:str
