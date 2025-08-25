@@ -26,7 +26,7 @@ export default function ChatBot({ documentId }: any) {
   const queryMutation = useMutation<QuerySuccessResponse, AxiosError<ApiErrorResponse>, string>({
     mutationFn: (userMessage: string) => {
       return axios.post<QuerySuccessResponse>(
-        'https://fuzzy-trout-94v9gjwqvvj2799v-8000.app.github.dev/api/query',
+        'https://legaldocinfo.onrender.com/api/query',
         {
           document_id: documentId,
           query: userMessage, // ✅ match backend

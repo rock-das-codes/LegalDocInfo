@@ -23,7 +23,7 @@ export function FileUpload({documentId,setDocumentId}:any) {
       const formData = new FormData();
       formData.append("file", file);
 
-      return axios.post("https://fuzzy-trout-94v9gjwqvvj2799v-8000.app.github.dev/upload", formData, {
+      return axios.post("https://legaldocinfo.onrender.com/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     },
