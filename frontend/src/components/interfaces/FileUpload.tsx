@@ -9,7 +9,7 @@ import axios, { type AxiosResponse } from 'axios';
 
 
 
-export function FileUpload({documentId,setDocumentId}:any) {
+export function FileUpload({documentId,setDocumentId,setIsLoading}:any) {
   const [fileName, setFileName] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -19,16 +19,19 @@ export function FileUpload({documentId,setDocumentId}:any) {
 
   // --- React Query Mutation ---
   const uploadMutation = useMutation<AxiosResponse<any>, any, File>({
+    
     mutationFn: async (file: File) => {
       const formData = new FormData();
       formData.append("file", file);
-
+      setIsLoading(true);
       return axios.post("https://legaldocinfo.onrender.com/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
     },
+    
     onSuccess: (response) => {
       console.log("Upload successful!", response.data);
+      setIsLoading(false)
       setDocumentId(response.data.document_id);
       setDocumentsId(response.data.document_id);
     },

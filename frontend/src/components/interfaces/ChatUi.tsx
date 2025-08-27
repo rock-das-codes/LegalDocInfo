@@ -2,6 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
  import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query'; 
  import axios, { AxiosError } from 'axios';
 
+ interface ApiErrorResponse {
+  detail: string;
+ }
+
+ interface ChatBotProps {
+  documentId: string;
+ }
 
  const BotIcon = () => ( <div className="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center font-bold text-white flex-shrink-0">AI</div> ); 
  const UserIcon = () => ( <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center font-bold text-white flex-shrink-0">You</div> );
@@ -10,10 +17,10 @@ import React, { useState, useRef, useEffect } from 'react';
    const LoadingSpinner = () => ( <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div> ); 
    const CheckIcon = () => ( <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-green-400"> <polyline points="20 6 9 17 4 12" /> </svg> );
  interface QuerySuccessResponse { answer: string; source_text: string; };
-  interface UploadSuccessResponse { document_id: string; filename: string; } ;
+  interface UploadSuccessResponse { document_id: string; filename: string; };
  
   interface Message { from: 'user' | 'bot'; text: string; };
-export default function ChatBot({ documentId }: any) {
+export default function ChatBot({ documentId }: ChatBotProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
@@ -53,18 +60,18 @@ export default function ChatBot({ documentId }: any) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-900 text-white">
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+    <div className="flex flex-col h-screen flex-grow bg-gray-900 text-white">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6">
         {messages.map((msg, idx) => (
           <div key={idx} className={`flex items-start space-x-2 ${msg.from === 'user' ? 'justify-end' : ''}`}>
             {msg.from === 'bot' && <BotIcon />}
-            <div className={`px-4 py-2 rounded-lg max-w-xs ${msg.from === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'}`}>
+            <div className={`px-4 py-2 rounded-xl max-w-xs shadow-md ${msg.from === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-100'}`}>
               {msg.text}
             </div>
             {msg.from === 'user' && <UserIcon />}
           </div>
         ))}
-        <div ref={messagesEndRef}></div>
+        <div ref={messagesEndRef} />
       </div>
 
       <form onSubmit={handleSendMessage} className="p-4 flex items-center space-x-2 border-t border-gray-700">
@@ -75,7 +82,7 @@ export default function ChatBot({ documentId }: any) {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <button type="submit" className="p-2 bg-blue-600 rounded-full hover:bg-blue-700 disabled:opacity-50" disabled={queryMutation.isLoading}>
+        <button type="submit" className="p-2 bg-blue-600 rounded-full hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed" disabled={queryMutation.isLoading}>
           <SendIcon />
         </button>
       </form>
