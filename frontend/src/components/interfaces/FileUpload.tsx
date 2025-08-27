@@ -13,7 +13,7 @@ export function FileUpload({documentId,setDocumentId,setIsLoading}:any) {
   const [fileName, setFileName] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [documentsId, setDocumentsId] = useState<string | null>(null);
+  
 
   const ALLOWED_FILE_TYPES = ["application/pdf", "text/plain"];
 
@@ -33,7 +33,7 @@ export function FileUpload({documentId,setDocumentId,setIsLoading}:any) {
       console.log("Upload successful!", response.data);
       setIsLoading(false)
       setDocumentId(response.data.document_id);
-      setDocumentsId(response.data.document_id);
+     
     },
     onError: (error: any) => {
       const errorMsg = error.response?.data?.detail || "An unexpected error occurred.";
