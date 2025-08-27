@@ -4,7 +4,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import SendIcon from '@mui/icons-material/Send';
 
-import { useMutation, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useMutation} from '@tanstack/react-query';
 import axios, { type AxiosResponse } from 'axios';
 
 
@@ -181,7 +181,7 @@ export function FileUpload({documentId,setDocumentId,setIsLoading}:any) {
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-gray-900 p-4">
-      {uploadMutation.isLoading && renderUploadingState()}
+      {uploadMutation.isPending && renderUploadingState()}
       {uploadMutation.isSuccess && renderReadyState()}
       {(uploadMutation.isIdle || uploadMutation.isError) && renderIdleState()}
     </div>
