@@ -110,6 +110,6 @@ def read_root():
 
 
 @app.get("/health")
-async def health_check():
+def health_check():
     """A simple endpoint to confirm the API is running."""
     return {"status": "ok"}    
