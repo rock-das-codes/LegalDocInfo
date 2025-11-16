@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import ChatBot from './components/interfaces/ChatUi';
 import { FileUpload } from './components/interfaces/FileUpload';
@@ -10,6 +10,7 @@ const Navbar: React.FC = () => (
     </div>
   </nav>
 );
+
 
 const LoadingScreen: React.FC = () => (
   <div className="flex items-center justify-center min-h-screen bg-gray-900 text-white">
@@ -23,7 +24,14 @@ const LoadingScreen: React.FC = () => (
 const App: React.FC = () => {
   const [documentId, setDocumentId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+useEffect(()=>{
+  try {
+    fetch("https://legaldocinfo.onrender.com/")
+    .then(res=>console.log("done backend running",res))
+  } catch (error) {
+    console.log("some error")
+  }
+},[])
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
