@@ -81,7 +81,7 @@ def query_helper_function(query:str,vector_store):
     Answer:
     """
     prompt = PromptTemplate(template=prompt_template, input_variables=["context", "question"])
-    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.3)
+    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.3)
     chain = load_qa_chain(llm, chain_type="stuff", prompt=prompt)
     response = chain({"input_documents": relevant_chunks, "question": query}, return_only_outputs=True)
     source_text = "\n---\n".join([chunk.page_content for chunk in relevant_chunks])
